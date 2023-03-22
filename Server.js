@@ -98,12 +98,18 @@ app.post("/logindata",(req,res)=>{
                 console.log(sqlupdatetoken)
                 console.log("accesstoken is updated successfully")
                 console.log("accesstoken is" + accesstoken)
-                res.send(result);
+                // res.send(result);
              
             console.log(result);
 
 
           
+            })
+            const fsql = `select * from isharegdata_cust where email="${loginemail}" and password="${loginpassword}")`;
+            con.query(fsql,(error,result)=>{
+                if (error) throw error;
+                console.log(result)
+                res.send(result);
             })
         }
 
@@ -121,19 +127,34 @@ app.post("/logindata",(req,res)=>{
 })
 
 
-app.get("/profiledata",(req,res)=>{
+app.post("/update",(req,res)=>{
+    const firstname=req.body.firstname;
+    const lastname=req.body.lastname;
+    const  email=req.body.email;
+    const mobilenumber=req.body.number;
+    const gender=req.body.gender;
    
-    const fsql = `select * from isharegdata_cust where recid = 1`;
-    con.query(fsql,(error,result)=>{
-        if (error) throw error;
-        console.log(result)
-        res.send(result);
-    })
+    const address=req   .body.address;
+    const dob=req.body.dob;
+    const yysql=`update isharegdata_cust set firstname="${firstname}",lastname="${lastname}" ,email="${email}"  , mobile_number=${mobilenumber},gender="${gender}",address="${address}",birthdate="${dob}" where email="${email}"`;
+con.query(yysql,(error,result)=>{
+    if(error) throw error;
+    console.log(yysql)
+    console.log(result)
+    res.send(result)
+})
 
 })
 
 
-
+app.get("/product",(req,res)=>{
+    const sql=`select * from ishaproduct_cust`;
+    con.query(sql,(error,result)=>{
+        if(error) throw error;
+        console.log(result)
+        res.send(result)
+    })
+})
 
 
 
