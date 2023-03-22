@@ -1,0 +1,109 @@
+
+Assignment 1 - Logical Program
+Program 1 :
+The task is print below hollow pattern of given dimension.
+********************
+* *
+* *
+* *
+* *
+********************
+Program 2 :
+Input : 5 If we change amount of input from 5 to 10,20 then is should work
+accordingly.
+Output:
+* * * * *
+* * * *
+* * *
+* *
+*
+Program 3 :
+Input : 5 If we change amount of input from 5 to 10,20 then is should work
+accordingly.
+Output:
+* * * * * * * * * *
+* * * * * * * *
+* * * * * *
+* * * *
+* *
+* *
+* * * *
+* * * * * *
+* * * * * * * *
+* * * * * * * * * *
+Assignment 2 - Customer Order
+Try to follow OOPs concept as well as MVC structure.
+Following functionality will be common for all screens
+- Listing: Search, Sorting, Multiple delete
+- Add / Edit screen as well as Inline Edit
+- Single Delete Action
+- Validation
+a) Customer Screen
+Customer Registration :
+Fields :
+First name
+Last name
+Email
+Password
+Confirm Password
+Mobile number
+Gender
+Address
+DOB
+Customer number should generate automatically during registration process.
+Customer Login:
+Email
+Password
+My Profile – To update the information.
+Customer Number [ACC...] - unique customer number. It will generate automatically during registration process.
+Customer First Name, Customer Last Name, Customer Gender
+Customer Address,
+Customer Email (readonly), Mobile number
+Customer DOB
+b) Products Screen
+Filter: All | Active | Inactive, Search: Code and Name
+Fields:
+Product Code [Unique Validation], Product Name, Brand [with Add New Option], Product Price, Product Status
+Product Status is Active/Inactive
+c) Order Screen – Add order
+DOM Architecture using Javascript / jQuery
+Product Code Price Qty Total Action [Add]
+P0001 500 2 1000 [Delete]
+P0002 200 5 1000 [Delete]
+Grand Total 2000 [Submit]
+ Product deletion or modification should not affect Customer Order screen.
+ Order ID – It will be generate automatically when order placed.
+ Qty should be inline editable.
+ Product Code – It should be dropdown for product selection.
+Order Listing – added order will be listed here.
+Total Orders – 2
+Order ID Date Action
+ORD0001 11/07/19 [View]
+ORD0002 11/07/19 [View]
+ Add Order – Display button for place new order. It will redirect to Add Order case of order screen.
+Order Detail View
+Order ID : ORD0001
+Date : 11/07/19
+Product Code Product Name Price Qty Total
+P0001 ABC Product 500 2 1000
+P0002 XYZ Product 200 5 1000
+Grand Total 2000
+Assignment 3 - Category
+Try to follow OOPs concept as well as MVC structure.
+1) Category Add Case
+User is able to add the N level category from the category add screen. Main data
+to be taken care is as below
+1. Category type
+This is radio button with selection of two type
+2. Category Name
+3. Category Selection with the breadcrumb as per the category inserted
+Client side as well as server side validation is required.
+Insert data will redirect to the view screen.
+2) Category View Case
+Display category as in image. Redirection link for Add case will be at top right
+corner.
+All the category must be display with category breadcrumb structure.
+Please note you need to provide inline delete.
+Edit case will open the same as in add but fill with all the details and update
+respective.
+Use recursion for display purpose.
