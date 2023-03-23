@@ -1,0 +1,66 @@
+[11:46 AM] Maulik Prajapati
+
+
+
+
+import React, { useState, useEffect } from "react";
+
+import axios from "axios";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
+
+
+let y = [];
+
+const Product = (id) => {
+
+  const [theArray, setTheArray] = useState([]);
+
+  const [date , setDate] = useState()
+
+  const [Order , setOrder] = useState(false)
+
+  const [pid, setId] = useState("");
+
+  const [checkd, setD] = useState(false);
+
+  const [check, setd] = useState(false);
+
+  var [qty, setQty] = useState(1);
+
+  var [amount, setAmount] = useState(0);
+
+  console.log(id)
+
+  const [pdata, setDatap] = useState("");
+
+  const viewData = async (e) => {
+
+    console.log(theArray);
+
+    const pdata = await axios.post("http://localhost:9005/productdata");
+
+    console.log(pdata);
+
+    setDatap(pdata.data);
+
+
+
+
+    if (!pdata == "") {
+
+      setD(true);
+
+    }
+
+  };
+
+  useEffect(() => {
+
+    viewData();
+
+  }, []);
+
+
