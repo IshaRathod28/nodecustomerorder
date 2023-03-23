@@ -156,7 +156,16 @@ app.get("/product",(req,res)=>{
     })
 })
 
-
+app.post("/getSingleData",(req,res)=>{
+const id=req.body.ID;
+sql=`select * from ishaproduct_cust where id = "${id}";`
+console.log(sql)
+con.query(sql,(err,result)=>{
+if(err) throw err;
+console.log(result)
+res.send(result)
+})
+})
 
 
 app.listen(8006,()=>console.log("your server is running on the port number 8006"))
