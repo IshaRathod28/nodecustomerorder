@@ -15,9 +15,57 @@ function Registration(){
     const[data,setdata]=useState([]);
 
 
+    
+    // function allowinputtext(){
+    //   var firstnuminput = document.getElementsByClassName("firsttextvalidation").value;
+    //   if(/^[0-9]*$/.test(firstnuminput)){
+    //       document.getElementById("firsttextvalidation").style.color="green";
+    //       document.getElementById("firsttextvalidation").innerHTML="Correct input"
+    //   }
+    //   else{
+    //       document.getElementById("firsttextvalidation").style.color="red";
+    //       document.getElementById("firsttextvalidation").innerHTML="Error:Only numeric values are allowed  ";
+    //   }
+    //   }
+
 const sendRegdatawhensubmit= async(e)=>{
+  // allowinputtext()
     console.log("Data submitted successfully")
 e.preventDefault();
+
+if (
+  !firstname ||
+  !lastname ||
+  !email ||
+  !password ||
+  !confirmpassword ||
+  !mobilenumber ||
+  !gender ||
+  !address ||
+  !dob
+) {
+  return (
+              alert("all fields are required")
+          );
+}
+else if(password.length < 8) {  
+            
+  return (
+      alert("Password Must Have Atleast 8 Character")
+  )
+}  
+else if(password != confirmpassword)
+{
+  return(
+      alert("Password And Confirm Password Must Be Same")
+  )
+}
+
+
+else {
+
+
+
 const res=await axios.post("http://localhost:8006/regdata",{
     firstname : firstname,
     lastname : lastname,
@@ -31,27 +79,31 @@ const res=await axios.post("http://localhost:8006/regdata",{
     customerid:firstname+mobilenumber
 })
 }
+}
 
     return(
         <>
+        <div>
+<div >
+     {<Link to="/" className='home1'>Back to Homepage </Link>}
+     </div>
         <div  className='regdiv'>
-       
-            
-
-       
-  
-    <form className='f1' onSubmit={sendRegdatawhensubmit}>
-      <div align="center" class="title">
         
-        <h1>Registration</h1>
-     <label>Firstname</label>
+    <form className='f1' name="registration" onSubmit={sendRegdatawhensubmit}>
+    <h1>Registration</h1>
+    <div align="center" class="title">
+      <label>Firstname</label>
+      <br />
         <input
           type="text"
-          placeholder="Please enter your first name"
+          placeholder="Please enter your last name"
           class="form-control"
-          id ="firstname" onChange={(e)=>{setfirstname(e.target.value)}} required
+          id="firstname"
+          name="firstname"
+          onChange={(e)=>{setfirstname(e.target.value)}}
+         
         />
-        {/* <p id="firstnamevalidation"></p> */}
+        {/* <p id="lastnamevalidation"></p> */}
       </div>
       <div align="center" class="title">
       <label>Lastname</label>
@@ -60,8 +112,9 @@ const res=await axios.post("http://localhost:8006/regdata",{
           placeholder="Please enter your last name"
           class="form-control"
           id="lastname"
+          name="lastname"
           onChange={(e)=>{setlastname(e.target.value)}}
-          required
+         
         />
         {/* <p id="lastnamevalidation"></p> */}
       </div>
@@ -69,9 +122,10 @@ const res=await axios.post("http://localhost:8006/regdata",{
       <label>Email</label>
         <input
           type="text"
+          name="email"
           placeholder="Please enter your email"
           class="form-control"
-          required
+         
           onChange={(e)=>{setemail(e.target.value)}}
         />
       </div>
@@ -79,19 +133,22 @@ const res=await axios.post("http://localhost:8006/regdata",{
       <label>Password</label>
         <input
           type="text"
+          name="password"
           placeholder="Please enter your password"
           class="form-control"
-          required
-          onChange={(e)=>{setpassword(e.target.value)}}
+         
+          onChange={(e)=>{setpassword(e.target.value)
+          }}
         />
       </div>
       <div align="center" class="title">
       <label>Confirm Password</label>
         <input
           type="text"
+          name="confirmpassword"
           placeholder="Please enter your password again"
           class="form-control"
-          required
+         
           onChange={(e)=>{setconfirmpassword(e.target.value)}}
         />
       </div>
@@ -99,9 +156,10 @@ const res=await axios.post("http://localhost:8006/regdata",{
       <label>Mobile number</label>
         <input
           type="text"
+          name="mobilenumber"
           placeholder="Please enter your Mobile Number"
           class="form-control"
-          required
+        
           onChange={(e)=>{setmobilenumber(e.target.value)}}
         />
       </div>
@@ -133,7 +191,7 @@ const res=await axios.post("http://localhost:8006/regdata",{
           type="text"
           placeholder="Please enter your Address"
           class="form-control"
-          required
+         name="address"
           onChange={(e)=>{setaddress(e.target.value)}}
         />
       </div>
@@ -143,7 +201,7 @@ const res=await axios.post("http://localhost:8006/regdata",{
           type="date"
           placeholder="Please select your birthdate"
           class="form-control"
-          required
+          
           onChange={(e)=>{setdob(e.target.value)}}
         />
       </div>
@@ -159,6 +217,7 @@ const res=await axios.post("http://localhost:8006/regdata",{
       <Link to="/login" >Please click here to login </Link>
       </div>
       </form>
+      </div>
       </div>
       </>
 
