@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import {Link} from 'react-router-dom'
 // const orderid = require('order-id')('key');
 
 // var y=[];
@@ -8,6 +9,12 @@ function Product() {
   // const id = orderid.generate();
   // orderid.getTime(id);
   // console.log(id);
+  const[showproductbutton,setshowproductbutton]=useState(true);
+  const[view,setshowview]=useState(false)
+  const[orderlistbutton,setshoworderlistbutton]=useState(false)
+  const[orderlist,setshoworderlist]=useState(false)
+  const [showproduct,setshowproduct] =useState(false)
+  const[cart,showcart]=useState(false);
   const [product, setproduct] = useState();
   var [product1, setproduct1] = useState([]);
   var [quantity, setquantity] = useState(1);
@@ -48,6 +55,8 @@ var[order,setorder]=useState("")
   
   
 const displayorderlisting = async(e) => {
+  setshoworderlist(true);
+  setshoworderlistbutton(false);
   const res = await axios.get("http://localhost:8006/displayorderlisting")
   console.log(res.data)
   setorder(res.data)
@@ -56,7 +65,8 @@ const displayorderlisting = async(e) => {
 
 
   const orderdatetable = async(e) => {
-   
+   setshoworderlistbutton(true)
+   showcart(false)
     var orddate = new Date();
     console.log(orddate.getDate());
     console.log(orddate.getMonth()+1);
@@ -113,6 +123,20 @@ const displayorderlisting = async(e) => {
 
   return (
     <>
+
+<div>
+<div >
+     {<Link to="/" className='home1'>Back to Homepage </Link>}
+     </div>
+     {showproductbutton?
+     <div>
+      <h1><button className="btn btn-primary" id="showproducts" onClick={()=>{
+        setshowproduct(true)
+        setshowproductbutton(false)
+      }}>Show Products</button></h1>
+     </div>:null}
+     {showproduct?
+     <>
       <div>
         <h1>Product Table</h1>
         <table>
@@ -135,6 +159,7 @@ const displayorderlisting = async(e) => {
                     <button
                       className="btn btn-danger"
                       onClick={() => {
+                      
                         // console.log(items);
                         //1 na add par click kre to 1 vali product niche table ma aave and 2 par click kare to 2 vali
                         //add1=>items=>data of product1 , add2=>items=>data of product2
@@ -155,7 +180,7 @@ const displayorderlisting = async(e) => {
                         // console.log(y)
                       }}
                     >
-                      ADD
+                      ADD TO CART
                     </button>
                   </td>
                 </tr>
@@ -163,9 +188,22 @@ const displayorderlisting = async(e) => {
             ))}
         </table>
       </div>
-
+      <br />
       <div>
-        <h1>Order Table</h1>
+      <button className="btn btn-danger" onClick={()=>{setshowproduct(false)
+      setshowproductbutton(true)}}>BACK</button>
+    </div>
+    <br />
+    <div>
+      <button className="btn btn-danger" onClick={()=>{  showcart(true);
+                     setshowproduct(false)}}>CLICK HERE TO SHOW YOUR CART</button>
+    </div>
+    </>
+      :null}
+      
+{cart?<>
+      <div>
+        <h1>CART</h1>
         <table>
           <th>Productcode</th>
           <th>Productname</th>
@@ -245,6 +283,8 @@ const displayorderlisting = async(e) => {
         <br />
 
 <div>
+        <button type="submit" onClick={()=>{setshowproduct(true)
+        showcart(false)}} class="btn btn-danger">BACK</button>
         <button type="submit" onClick={Grandtotal} class="btn btn-danger">SUBMIT</button>
         <button type="submit" onClick={managedatainordertable}  class="btn btn-danger">CLEAR</button>
 </div>
@@ -262,11 +302,16 @@ const displayorderlisting = async(e) => {
   
 </div>
 <br />
+</>
+:null}
+{orderlistbutton?<>
 <div>
-<button class="btn btn-danger" onClick={displayorderlisting}>
+<button class="btn btn-primary" id="showproducts" onClick={displayorderlisting}>
     Click here to see your order list
-  </button>
-</div>
+  </button></div><div>
+  <button className="btn btn-danger" onClick={()=>{showcart(true); setshoworderlistbutton(false)}}>BACK</button>
+</div></>:null}
+{orderlist?<>
       <div>
         <h1>
           Order Listing
@@ -281,7 +326,8 @@ const displayorderlisting = async(e) => {
             <tr>
               <td>{items.orderid}</td>
               <td>{items.date}</td>
-              <td><button>View</button></td>
+              <td><button onClick={()=>{setshowview(true)
+              setshoworderlist(false)}}>View</button></td>
               </tr></>
           )
             
@@ -289,7 +335,14 @@ const displayorderlisting = async(e) => {
           
         </table>
       </div>
-
+      <br />
+      <div>
+        <button className="btn btn-danger" onClick={()=>{setshoworderlist(false); setshoworderlistbutton(true)}}>BACK</button>
+        </div></>
+:null}
+{
+  view?
+<>
       <div>
         <h1>
           Order Detail view
@@ -313,6 +366,11 @@ const displayorderlisting = async(e) => {
                   </tr></>))}
          
         </table>
+      </div>
+      <br />
+      <div>
+      <button className="btn btn-danger" onClick={()=>{setshoworderlist(true); setshowview(false)}}>BACK</button>
+      </div></>:null}
       </div>
     </>
   );
