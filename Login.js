@@ -3,6 +3,8 @@ import react,{useEffect,useState} from 'react';
 import {Link} from 'react-router-dom'
 
 function Login(){
+  const[showlogin,setshowlogin]=useState(true);
+  const [showprofile,setshowprofile]=useState(false);
   const[firstname,setfirstname]=useState("");
   const [lastname, setlastname] = useState("");
   const [email, setemail] = useState("");
@@ -93,7 +95,11 @@ const res = await axios.post("http://localhost:8006/update",{
       
  return (
     <>
+     <div >
+     {<Link to="/" className='home1'>Back to Homepage </Link>}</div>
+     {showlogin?
      <div className='regdiv'>
+     
 <form onSubmit={clickloginaction} className='f1' >
 <div align="center" class="title">
 <h1>Login</h1>
@@ -129,10 +135,14 @@ const res = await axios.post("http://localhost:8006/update",{
 <br />
 {<Link to="/registration" >Please click here to register </Link>}
 </div>
+<br />
+<div><button class="btn btn-success" onClick={()=>{setshowprofile(true);
+setshowlogin(false)}}>Please click here to see your profile</button></div>
+
 </form>
         </div>
-        
-        
+        :null}
+        {showprofile?
         <div className='regdiv'>
 
             <form className='f1' onSubmit={updatesubmit} >
@@ -252,7 +262,7 @@ name='email'
 
 
 
-        </div></>
+        </div>:null}</>
  )
 }
 
