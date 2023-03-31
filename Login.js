@@ -50,46 +50,56 @@ const res = await axios.post("http://localhost:8006/update",{
 
     const clickloginaction=async(e)=>{
         e.preventDefault();
-              
-        const res= await axios.post("http://localhost:8006/logindata",{
-           loginemail : loginemail,
-           loginpassword : loginpassword
-        })
-      .then((res)=>{
-        // console.log(res.data);
-        // if(res.data[0]){
-        //   console.log("Yeah! Your login is successfull")
-        // }
-        // console.log(res)
-        if(res.data == "Sorry , user is not exist , your login is fail, please try again"){
-          console.log(res.data);
-          setdata([""]);
-        }
-        else{
-          console.log("Yeah! Your login is successfull");
-         
-            // console.log(res.data);
-            setdata(res.data[0])
-            // setfirstname(res.data[0].firstname);
-            // setlastname(res.data[0].lastname);
-            // setemail(res.data[0].email);
-            // setmobilenumber(res.data[0].mobile_number);
-            // setgender(res.data[0].gender);
-            // setaddress(res.data[0].address)
-            // setdob(res.data[0].birthdate)
+
+        if(loginpassword.length < 8) { 
+          return (alert("Error: Password must be at least 8 characters"))
+               } else if(loginpassword.search(/[a-z]/) < 0) { 
+                return (alert("Error: Password must contain at least one lowercase letter"))
+                 
     
-            
+                } else if(loginpassword.search(/[A-Z]/) < 0) { 
+                  return (alert("Error: Password must contain at least one uppercase letter"))
+                
+                
+                } else if(loginpassword.search(/[0-9]/) < 0) { 
+                  return (alert("Error: Password must contain at least one number"))
+             
+                
+                } else if(loginpassword.search(/[=.*@#$%^&-+=())(?=\\S+$]/) < 0) { 
+                  return (alert("Error: Password must contain at least special character"))
+                }else{
+
+                  const res= await axios.post("http://localhost:8006/logindata",{
+                    loginemail : loginemail,
+                    loginpassword : loginpassword
+                 })
+               .then((res)=>{
+              
+                console.log(res.data)
+                console.log(res.data.length)
+                if(res.data.length==0){
+                  console.log("Sorry , user is not exist , your login is fail, please try again")
+                  setdata([""]);
+                }else{
+                  console.log("Login is Successfull")
+                }
+                //  if(res.data == "Sorry , user is not exist , your login is fail, please try again"){
+                //    console.log(res.data);
+                //    setdata([""]);
+                //  }
+                //  else{
+                //    console.log("Yeah! Your login is successfull");
+                //      setdata(res.data[0])
+                //  }
+                
+               })
+               .catch((error)=>{
+                 console.log(error)
+               })
+
+                }
+              
         
-       
-           
-       
-          // console.log(res.data)
-        }
-       
-      })
-      .catch((error)=>{
-        console.log(error)
-      })
 
     }
       
@@ -100,12 +110,12 @@ const res = await axios.post("http://localhost:8006/update",{
      {showlogin?
      <div className='regdiv'>
      
-<form onSubmit={clickloginaction} className='f1' >
+<form onSubmit={clickloginaction} className='f1' name="login" >
 <div align="center" class="title">
 <h1>Login</h1>
        <label htmlFor="">Email</label>
         <input
-          type="text"
+          type="email"
           placeholder="Please enter your Email"
           class="form-control"
           // required
@@ -116,7 +126,7 @@ const res = await axios.post("http://localhost:8006/update",{
       <label htmlFor="">Password</label>
         <input
           type="text"
-          name='pass'
+          name='password'
           placeholder="Please enter your password"
           class="form-control"
           onChange={(e)=>{setloginpassword(e.target.value)}}
@@ -138,6 +148,10 @@ const res = await axios.post("http://localhost:8006/update",{
 <br />
 <div><button class="btn btn-success" onClick={()=>{setshowprofile(true);
 setshowlogin(false)}}>Please click here to see your profile</button></div>
+ <tr className='apptable'>
+             
+              <Link to="/product">Product Screen</Link>
+              </tr>
 
 </form>
         </div>
