@@ -31,9 +31,6 @@ var[order,setorder]=useState("")
     
     Handleproduct();
   }, []);
-
- 
-
   const Grandtotal = async(e)=>{
     const res = await axios.post("http://localhost:8006/grandtotal",{
       product1:product1
