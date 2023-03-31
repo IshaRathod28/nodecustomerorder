@@ -15,6 +15,36 @@ function Registration(){
     const[data,setdata]=useState([]);
 
 
+    function phonenumber(inputtxt)
+    {
+      var phoneno = /^\d{10}$/;
+      if(inputtxt.value.match(phoneno))
+            {
+          return true;
+            }
+          else
+            {
+            alert("Please enter valid mobile number");
+            return false;
+            }
+    }
+
+
+    function allLetter(inputtxt)
+       
+    {
+      console.log(inputtxt);
+     var letters = /^[A-Za-z]+$/;
+     if(inputtxt.value.match(letters))
+       {
+        return true;
+       }
+     else
+       {
+       alert("Only characters are allowed in " + inputtxt.name);
+       return false;
+       }
+    }
     
     // function allowinputtext(){
     //   var firstnuminput = document.getElementsByClassName("firsttextvalidation").value;
@@ -33,51 +63,76 @@ const sendRegdatawhensubmit= async(e)=>{
     console.log("Data submitted successfully")
 e.preventDefault();
 
-if (
-  !firstname ||
-  !lastname ||
-  !email ||
-  !password ||
-  !confirmpassword ||
-  !mobilenumber ||
-  !gender ||
-  !address ||
-  !dob
-) {
-  return (
-              alert("all fields are required")
-          );
-}
-else if(password.length < 8) {  
-            
-  return (
-      alert("Password Must Have Atleast 8 Character")
-  )
-}  
-else if(password != confirmpassword)
-{
-  return(
-      alert("Password And Confirm Password Must Be Same")
-  )
-}
+if(password.length < 8) { 
+  return (alert("Error: Password must be at least 8 characters"))
+       } else if(password.search(/[a-z]/) < 0) { 
+        return (alert("Error: Password must contain at least one lowercase letter"))
+         
+        
+        } else if(password.search(/[A-Z]/) < 0) { 
+          return (alert("Error: Password must contain at least one uppercase letter"))
+        
+        
+        } else if(password.search(/[0-9]/) < 0) { 
+          return (alert("Error: Password must contain at least one number"))
+     
+        
+        } else if(password.search(/[=.*@#$%^&-+=())(?=\\S+$]/) < 0) { 
+          return (alert("Error: Password must contain at least special character"))
+        }
+        else if(password != confirmpassword)
+  {
+    return(
+        alert("Password And Confirm Password Must Be Same")
+    )
+  }
+  else if(allLetter(document.registration.firstname)&&allLetter(document.registration.lastname)&&phonenumber(document.registration.mobilenumber)){
+    console.log(true)
+    console.log("dd")
+    console.log(mobilenumber);
+    var today = new Date();
+var dd = today.getDate();
 
+var mm = today.getMonth()+1; 
+var yyyy = today.getFullYear();
+if(dd<10) 
+{
+    dd='0'+dd;
+} 
+
+if(mm<10) 
+{
+    mm='0'+mm;
+} 
+today = yyyy+'-'+mm+'-'+dd;
+console.log(today);
+    if(today>dob){
+      console.log("right date")
+      document.getElementById("bday").innerHTML="Right birthdate"
+      document.getElementById("bday").style.color="green"
+      const res=await axios.post("http://localhost:8006/regdata",{
+        firstname : firstname,
+        lastname : lastname,
+        email :email ,
+        password : password ,
+        confirmpassword : confirmpassword,
+        mobile:mobilenumber,
+        gender:gender,
+        address:address,
+        birthdate:dob,
+        customerid:firstname+mobilenumber
+    })
+    console.log(res.data)
+    document.getElementById("erroremail").innerHTML=res.data
+    document.getElementById("erroremail").style.color="red"
+    }else{
+      console.log("wrong date")
+      document.getElementById("bday").innerHTML="Wrong birthdate"
+      document.getElementById("bday").style.color="red"
+    }
+   }
 
 else {
-
-
-
-const res=await axios.post("http://localhost:8006/regdata",{
-    firstname : firstname,
-    lastname : lastname,
-    email :email ,
-    password : password ,
-    confirmpassword : confirmpassword,
-    mobile_number:mobilenumber,
-    gender:gender,
-    address:address,
-    birthdate:dob,
-    customerid:firstname+mobilenumber
-})
 }
 }
 
@@ -121,14 +176,14 @@ const res=await axios.post("http://localhost:8006/regdata",{
       <div align="center" class="title">
       <label>Email</label>
         <input
-          type="text"
+          type="email"
           name="email"
           placeholder="Please enter your email"
           class="form-control"
-         
           onChange={(e)=>{setemail(e.target.value)}}
         />
       </div>
+      
       <div align="center" class="title">
       <label>Password</label>
         <input
@@ -205,6 +260,8 @@ const res=await axios.post("http://localhost:8006/regdata",{
           onChange={(e)=>{setdob(e.target.value)}}
         />
       </div>
+      <p id="bday"></p>
+      <p id="erroremail"></p>
       
 
       <div>
