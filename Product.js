@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import {Link} from 'react-router-dom'
+
 // const orderid = require('order-id')('key');
 
 // var y=[];
@@ -20,6 +21,22 @@ function Product() {
   var [quantity, setquantity] = useState(1);
   var [orddate,setorddate] =useState("")
   var[price,totalprice]=useState("")
+  const[product2,setproduct2]=useState("")
+
+  console.log(product1)
+  console.log(product2)
+  
+
+  const View = async(id) =>{
+    console.log(id);
+
+    const res = await axios.post("http://localhost:8006/showview",{
+      id:id
+    })
+      console.log(res.data)
+      setproduct2(res.data)
+    }
+  
 var[order,setorder]=useState("")
   useEffect(() => {
     const Handleproduct = async (e) => {
@@ -33,7 +50,7 @@ var[order,setorder]=useState("")
   }, []);
   const Grandtotal = async(e)=>{
     const res = await axios.post("http://localhost:8006/grandtotal",{
-      product1:product1
+      product:product1
     })
   }
  
@@ -77,9 +94,14 @@ const displayorderlisting = async(e) => {
     console.log(orderdate)
     setorddate(orderdate)
    
+
+    
     const res = await axios.post("http://localhost:8006/orderdatetable",{
-      orddate:orddate
+      orddate:orddate,
+      product1:product1
+  
     })
+    console.log(res.data)
   }
 
  console.log(orddate)
@@ -142,7 +164,7 @@ const displayorderlisting = async(e) => {
           <th>Brand</th>
           <th>Productprice</th>
           <th>Productstatus</th>
-          <th>Add to card</th>
+          <th>Add to cart</th>
           {product &&
             product.map((items) => (
               <>
@@ -168,27 +190,41 @@ const displayorderlisting = async(e) => {
 // console.log(storeselectedproductdata)
                         //setproduct1([storeselectedproductdata])
                         //uper jevu kare to data select pan thay and show pan thay but ek j row ma natak thay , aapane particular product mate different row joiye etle alag rite set karavva padse
+if(items.productstatus=="active"){
+  setproduct1((initialdata) => [
+    ...initialdata,
+    { ...storeselectedproductdata, quantity: 1 },
+  ]);
+  document.getElementById('active').innerHTML="Perfect clicked"
+document.getElementById("active").style.color="green"
 
-                        setproduct1((initialdata) => [
-                          ...initialdata,
-                          { ...storeselectedproductdata, quantity: 1 },
-                        ]);
+}
+else{
+console.log(document.getElementById('active'));
+document.getElementById('active').innerHTML="You are trying to add order that is inactive , please select active order"
+document.getElementById("active").style.color="red"
+
+}
+                      
                         // y=product1;
                         // console.log(y)
                       }}
                     >
                       ADD TO CART
                     </button>
+
                   </td>
                 </tr>
               </>
             ))}
         </table>
+        <div id="active"></div>
       </div>
       <br />
       <div>
       <button className="btn btn-danger" onClick={()=>{setshowproduct(false)
       setshowproductbutton(true)}}>BACK</button>
+      <button type="submit" onClick={managedatainordertable}  class="btn btn-danger" style={{marginLeft:"10px"}}>CLEAR CART</button>
     </div>
     <br />
     <div>
@@ -200,6 +236,7 @@ const displayorderlisting = async(e) => {
       
 {cart?<>
       <div>
+      
         <h1>CART</h1>
         <table>
           <th>Productcode</th>
@@ -278,8 +315,12 @@ const displayorderlisting = async(e) => {
             ))}
         </table>
         <br />
+        <div>
+          
+        </div>
 
 <div>
+
         <button type="submit" onClick={()=>{setshowproduct(true)
         showcart(false)}} class="btn btn-danger">BACK</button>
         <button type="submit" onClick={Grandtotal} class="btn btn-danger">SUBMIT</button>
@@ -323,7 +364,8 @@ const displayorderlisting = async(e) => {
             <tr>
               <td>{items.orderid}</td>
               <td>{items.date}</td>
-              <td><button onClick={()=>{setshowview(true)
+              <td><button onClick={()=>{setshowview(true);
+              View(items.orderid);
               setshoworderlist(false)}}>View</button></td>
               </tr></>
           )
@@ -351,8 +393,8 @@ const displayorderlisting = async(e) => {
             <th>productprice</th>
             <th>quantity</th>
             <th>totalprice</th>
-            {product1 &&
-            product1.map((items) => (
+            {product2 &&
+            product2.map((items) => (
               <>
                 <tr>
                   <td>{items.productcode}</td>
