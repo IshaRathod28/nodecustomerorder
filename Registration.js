@@ -1,3 +1,4 @@
+
 import react,{useState,useEffect} from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
@@ -187,7 +188,7 @@ else {
       <div align="center" class="title">
       <label>Password</label>
         <input
-          type="text"
+          type="password"
           name="password"
           placeholder="Please enter your password"
           class="form-control"
@@ -199,7 +200,7 @@ else {
       <div align="center" class="title">
       <label>Confirm Password</label>
         <input
-          type="text"
+          type="password"
           name="confirmpassword"
           placeholder="Please enter your password again"
           class="form-control"
